@@ -6,7 +6,7 @@ locals {
 
   instance_class = {
     description = "EC2 instance type"
-    default     = "db.t2.micro"
+    default     = "db.t3.micro"
   }
 
   allocated_storage = {
@@ -21,17 +21,17 @@ locals {
 
   identifier = {
     description = "RDS identifier"
-    default     = "dev-db"
+    default     = "website-factory-db"
   }
 
   engine_version = {
     description = "RDS engine version"
-    default     = "13"
+    default     = "13.4"
   }
 
   name = {
     description = "RDS name"
-    default     = "website-factroy-db"
+    default     = "websitefactroydb"
   }
 
   username = {
