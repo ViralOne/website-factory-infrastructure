@@ -19,8 +19,8 @@ locals {
     default     = "ami-035e90af11365cc27"
   }
 
-  iam_instance = {
+  iam_profile = {
     description = "IAM instance profile"
-    default     = "s3-wf-access"
+    default     = "wf_profile"
   }
 }
