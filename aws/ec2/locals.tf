@@ -16,11 +16,11 @@ locals {
 
   ami = {
     description = "Default image used on EC2 instance"
-    default     = "ami-035e90af11365cc27"
+    default     = "ami-015c25ad8763b2f11"
   }
 
   iam_profile = {
     description = "IAM instance profile"
-    default     = "wf_profile"
+    default     = "website-factory-profile"
   }
 }
