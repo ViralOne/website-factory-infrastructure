@@ -27,3 +27,8 @@ output "instance_state" {
   description = "State of the EC2 instance"
   value       = module.ec2_instance.instance_state
 }
+
+output "exposed_ports" {
+  description = "List of exposed ports"
+  value       = resource.aws_security_group.expose_web.ingress
+}
