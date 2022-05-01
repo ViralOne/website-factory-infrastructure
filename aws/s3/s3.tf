@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "website-factory" {
     Name           = local.bucket.name
     Classification = "Public"
   }
-  
+
   versioning {
     enabled    = local.bucket.versioning
     mfa_delete = local.bucket.mfa_delete

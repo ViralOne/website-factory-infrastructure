@@ -6,7 +6,7 @@ locals {
 
   bucket = {
     description   = "Bucket details"
-    name          = "prod-website-bucket" # change this to your bucket name
+    name          = "websitefactory-bucket" # change this to your bucket name
     acl           = "public-read"
     force_destroy = false
     versioning    = true
