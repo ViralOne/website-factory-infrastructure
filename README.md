@@ -16,11 +16,9 @@ $ terraform apply
 
 You have to execute in a specific order:
 
-1. S3 - to create the IAM Roles + Policies and the S3 bucket 
+1. Main-Components folder - to create Route53 Hosted zone, email service, EC2 instance, IAM Roles + Policies and the S3 bucket 
 2. RDS - to create the Postgres DB
-3. SES - to create Route53 zone & email service
-4. EC2 - to create the EC2 instance
-5. Set DNS nameservers to AWS Route 53.
+3. Set DNS nameservers to AWS Route 53.
 
 ---
 

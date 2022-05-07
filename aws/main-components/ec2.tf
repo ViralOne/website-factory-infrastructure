@@ -56,4 +56,3 @@ resource "aws_security_group" "expose_web" {
     cidr_blocks     = ["0.0.0.0/0"]
   }
 }
- 
