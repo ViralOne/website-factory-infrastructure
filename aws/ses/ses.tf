@@ -1,13 +1,30 @@
-module "ses" {
-  source  = "cloudposse/ses/aws"
-  version = "0.22.3"
+resource "aws_route53_zone" "zone" {
+  name     = local.ses.domain
+  tags     = {}
+}
 
-  domain      = local.ses.domain
-  enabled     = local.ses.enabled
-  environment = local.ses.environment
-  namespace   = local.ses.namespace
+resource "aws_ses_domain_identity" "primary" {
+  domain = aws_route53_zone.zone.name
+}
 
-  zone_id       = local.ses.zone_id
-  verify_dkim   = local.ses.verify_dkim
-  verify_domain = local.ses.verify_domain
+resource "aws_route53_record" "ses_verif" {
+  zone_id = aws_route53_zone.zone.zone_id
+  name    = "_amazonses.${aws_ses_domain_identity.primary.id}"
+  type    = "TXT"
+  ttl     = "600"
+  records = [aws_ses_domain_identity.primary.verification_token]
+}
+
+resource "aws_ses_domain_identity_verification" "ses_verif" {
+  domain = aws_ses_domain_identity.primary.id
+
+  depends_on = [aws_route53_record.ses_verif]
+}
+
+resource "aws_route53_record" "email" {
+  zone_id = aws_route53_zone.zone.zone_id
+  name    = aws_route53_zone.zone.name
+  type    = "MX"
+  ttl     = "600"
+  records = ["10 inbound-smtp.${local.aws_region.default}.amazonaws.com"]
 }

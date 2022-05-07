@@ -5,12 +5,8 @@ locals {
   }
 
   ses = {
-    enabled       = true
-    domain        = "example.com" # change this
-    environment   = "dev"
-    namespace     = "dev"
-    zone_id       = ""
-    verify_dkim   = true
-    verify_domain = true
+    enabled = true
+    domain  = "c4r.com"     # change this
+    email   = "ngo@c4r.com" # change this
   }
 }
