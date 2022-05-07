@@ -3,6 +3,8 @@ resource "aws_route53_zone" "zone" {
   tags     = {}
 }
 
+## Create SES record
+
 resource "aws_ses_domain_identity" "primary" {
   domain = aws_route53_zone.zone.name
 }
@@ -27,4 +29,14 @@ resource "aws_route53_record" "email" {
   type    = "MX"
   ttl     = "600"
   records = ["10 inbound-smtp.${local.aws_region.default}.amazonaws.com"]
+}
+
+## Create a DNS record for the domain
+
+resource "aws_route53_record" "domain-record" {
+  zone_id = aws_route53_zone.zone.zone_id
+  name    = local.domain.record_A
+  type    = "A"
+  ttl     = "300"
+  records = [module.ec2_instance.public_ip]
 }

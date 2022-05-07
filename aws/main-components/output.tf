@@ -32,3 +32,26 @@ output "exposed_ports" {
   description = "List of exposed ports"
   value       = resource.aws_security_group.expose_web.ingress
 }
+
+output "domain-public-zone-id" {
+  value = aws_route53_zone.zone.zone_id
+}
+
+output "domain-name-servers" {
+  value = aws_route53_zone.zone.name_servers
+}
+
+output "key_pair_fingerprint" {
+  value       = module.key_pair.key_pair_fingerprint
+  description = "Key pair fingerprint"
+}
+
+output "key_pair_name" {
+  value       = module.key_pair.key_pair_key_name
+  description = "Key pair name"
+}
+
+output "key_pair_id" {
+  value       = module.key_pair.key_pair_key_pair_id
+  description = "Key pair ID"
+}

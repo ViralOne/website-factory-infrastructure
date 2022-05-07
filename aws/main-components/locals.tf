@@ -23,4 +23,14 @@ locals {
     description = "IAM instance profile"
     default     = "website-factory-profile"
   }
+  
+  ses = {
+    enabled = true
+    domain  = "c4r.com"     # change this
+    email   = "ngo@c4r.com" # change this
+  }
+
+  domain = {
+    record_A = "server.domain-registration.com" # change this
+  }
 }
