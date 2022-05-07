@@ -9,6 +9,9 @@ resource "aws_db_instance" "postgres_db" {
   password            = random_password.password.result
   skip_final_snapshot = local.skip_final_snapshot.default
   publicly_accessible = local.publicly_accessible.default
+
+  backup_retention_period = local.backup.backup_retention_period
+  backup_window = local.backup.backup_window
 }
 
 resource "random_password" "password" {

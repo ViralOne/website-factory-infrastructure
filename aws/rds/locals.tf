@@ -54,4 +54,9 @@ locals {
     special          = false
     override_special = "_%@"
   }
+
+  backup = {
+    backup_retention_period = "7"
+    backup_window = "12:00-01:30" #UTC timezone converted to UTC +2 results (02:00-03:30) Buchanan timezone
+  }
 }
