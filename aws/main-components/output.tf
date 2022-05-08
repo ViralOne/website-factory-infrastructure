@@ -42,16 +42,16 @@ output "domain-name-servers" {
 }
 
 output "key_pair_fingerprint" {
-  value       = module.key_pair.key_pair_fingerprint
+  value       = resource.aws_key_pair.wf_pair_key.fingerprint
   description = "Key pair fingerprint"
 }
 
 output "key_pair_name" {
-  value       = module.key_pair.key_pair_key_name
+  value       = resource.aws_key_pair.wf_pair_key.key_name
   description = "Key pair name"
 }
 
 output "key_pair_id" {
-  value       = module.key_pair.key_pair_key_pair_id
+  value       = resource.aws_key_pair.wf_pair_key.key_pair_id
   description = "Key pair ID"
 }
