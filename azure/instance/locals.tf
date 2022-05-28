@@ -11,7 +11,7 @@ locals {
     description = "Service plan details"
     name        = "websitefactory-svc-plan"
     tier        = "Standard"
-    size        = "S1"
+    size        = "F1" #Free Tier
   }
 
   service_config = {
