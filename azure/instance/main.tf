@@ -45,7 +45,7 @@ resource "azurerm_app_service" "app_service" {
 
   site_config {
     app_command_line = ""
-    linux_fx_version = "DOCKER|viralnico/website-factory"
+    linux_fx_version = "DOCKER|code4romania/website-factory:edge"
   }
 
   app_settings = {

@@ -11,7 +11,7 @@ locals {
     description = "Service plan details"
     name        = "websitefactory-svc-plan"
     tier        = "Standard"
-    size        = "F1" #Free Tier
+    size        = "B1" # Smallest tier but not free, F1 tier didn't allow to apply  
     kind        = "Linux"
     reserved    = true
   }
