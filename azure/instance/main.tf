@@ -28,6 +28,8 @@ resource "azurerm_app_service_plan" "app_service_plan" {
   name                = local.service_plan.name
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
+  kind                = local.service_plan.kind
+  reserved            = local.service_plan.reserved
 
   sku {
     tier = local.service_plan.tier
@@ -40,10 +42,14 @@ resource "azurerm_app_service" "app_service" {
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
   app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
-  
-  #(Optional)
+
   site_config {
-    dotnet_framework_version = "v4.0"
-    scm_type                 = "LocalGit"
+    app_command_line = ""
+    linux_fx_version = "DOCKER|viralnico/website-factory"
+  }
+
+  app_settings = {
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+    "DOCKER_REGISTRY_SERVER_URL"          = "https://index.docker.io"
   }
 }

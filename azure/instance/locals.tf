@@ -12,6 +12,8 @@ locals {
     name        = "websitefactory-svc-plan"
     tier        = "Standard"
     size        = "F1" #Free Tier
+    kind        = "Linux"
+    reserved    = true
   }
 
   service_config = {
