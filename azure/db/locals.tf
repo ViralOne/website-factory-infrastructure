@@ -8,9 +8,10 @@ locals {
   }
 
   db_config = {
-    description = "Service configuration"
-    name        = "website-factory-db"
-    sku         = "B_Gen5_1" # Smallestype
+    description   = "Service configuration"
+    name          = "postgresql-server-1"
+    resource_name = "website-factory-db"
+    sku           = "B_Gen5_1" # Smalles type
 
     admin_user              = "psqladmin"
     admin_pass              = "H@Sh1CoR3!"

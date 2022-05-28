@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.8.0"
     }
   }
@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "websitefactory_resources" {
 }
 
 resource "azurerm_postgresql_server" "websitefactory_db_server" {
-  name                = "postgresql-server-1"
+  name                = local.db_config.name
   location            = azurerm_resource_group.websitefactory_resources.location
   resource_group_name = azurerm_resource_group.websitefactory_resources.name
 
@@ -28,7 +28,7 @@ resource "azurerm_postgresql_server" "websitefactory_db_server" {
   administrator_login_password = local.db_config.admin_pass
   version                      = local.db_config.version
   ssl_enforcement_enabled      = local.db_config.ssl_enforcement_enabled
-  
+
 }
 
 resource "azurerm_postgresql_database" "websitefactory_db" {
