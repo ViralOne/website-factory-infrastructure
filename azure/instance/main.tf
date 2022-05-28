@@ -9,11 +9,6 @@ terraform {
   }
 }
 
-# Configure the Microsoft Azure Provider
-provider "azurerm" {
-  features {}
-}
-
 # Create a resource group
 resource "azurerm_resource_group" "resource_group" {
   name     = local.azure_configs.resource_name
@@ -37,5 +32,18 @@ resource "azurerm_app_service_plan" "app_service_plan" {
   sku {
     tier = local.service_plan.tier
     size = local.service_plan.size
+  }
+}
+
+resource "azurerm_app_service" "app_service" {
+  name                = local.service_config.name
+  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.resource_group.name
+  app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
+  
+  #(Optional)
+  site_config {
+    dotnet_framework_version = "v4.0"
+    scm_type                 = "LocalGit"
   }
 }
