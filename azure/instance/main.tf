@@ -3,7 +3,7 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.8.0"
     }
   }
@@ -51,5 +51,32 @@ resource "azurerm_app_service" "app_service" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "DOCKER_REGISTRY_SERVER_URL"          = "https://index.docker.io"
+    "APP_ENV"                             = "production"
+    "APP_KEY"                             = "some-key"
+    "WEBSITE_FACTORY_EDITION"             = "edge"
+    "DB_CONNECTION"                       = "pgsql"
+    "DB_HOST"                             = "URL"
+    "DB_PORT"                             = "5432"
+    "DB_DATABASE"                         = "db_name"
+    "DB_USERNAME"                         = "db_user"
+    "DB_PASSWOR"                          = "db_pass"
+    "REDIS_HOST"                          = "host"
+    "REDIS_PASSWORD"                      = "null"
+    "REDIS_PORT"                          = "6379"
+    "MAIL_MAILER"                         = "smtp"
+    "MAIL_HOST"                           = "host"
+    "MAIL_PORT"                           = "1234"
+    "MAIL_USERNAM"                        = "username"
+    "MAIL_PASSWORD"                       = "password"
+    "MAIL_ENCRYPTION"                     = "tls"
+    "MAIL_FROM_ADDRESS"                   = "email@service.com"
+    "FILESYSTEM_DRIVER"                   = "storage_account"
+    "FILESYSTEM_CLOUD"                    = "storage_account"
+  }
+
+  connection_string {
+    name  = "website-factory-db-connection"
+    type  = "PostgreSQL"
+    value = "{your-postgres-server-name}.postgres.database.azure.com" # to do: get it from the DB server
   }
 }

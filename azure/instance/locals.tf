@@ -17,7 +17,7 @@ locals {
   }
 
   service_config = {
-    description         = "Service configuration"
-    name                = "website-factory"
+    description = "Service configuration"
+    name        = "website-factory"
   }
 }
