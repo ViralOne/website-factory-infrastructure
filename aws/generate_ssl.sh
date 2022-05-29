@@ -13,5 +13,4 @@ if [ $# -ne 2 ]; then
     --no-bootstrap --manual-public-ip-logging-ok --preferred-challenges dns-01 \
     -m  "$2"  \
     --server https://acme-v02.api.letsencrypt.org/directory
-
 fi

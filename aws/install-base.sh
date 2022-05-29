@@ -14,4 +14,4 @@ newgrp docker
 sudo snap disable docker
 sudo snap enable docker
 
-./install-components.sh
+./install-compose.sh
