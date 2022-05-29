@@ -1,4 +1,4 @@
-output "ec2_ids" {
+/* output "ec2_ids" {
   description = "List of IDs of instances"
   value       = module.ec2_instance.id
 }
@@ -54,4 +54,4 @@ output "key_pair_name" {
 output "key_pair_id" {
   value       = resource.aws_key_pair.wf_pair_key.key_pair_id
   description = "Key pair ID"
-}
+} */
