@@ -1,8 +1,9 @@
-# data "azurerm_postgresql_flexible_server" "example" {
-#   name                = "existing-postgresql-fs"
-#   resource_group_name = "existing-postgresql-resgroup"
-# }
+data "azurerm_private_dns_zone" "dns_zone" {
+  name                = "website-factory-1.postgres.database.azure.com"
+  resource_group_name = azurerm_resource_group.websitefactory_resources.name
+}
 
-# output "id" {
-#   value = data.azurerm_postgresql_flexible_server.example.id
-# }
+data "azurerm_virtual_network" "vn_network" {
+  name                = "website-factory-network"
+  resource_group_name = azurerm_resource_group.websitefactory_resources.name
+}

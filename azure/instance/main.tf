@@ -23,6 +23,27 @@ resource "azurerm_virtual_network" "vn_network" {
   address_space       = ["10.0.0.0/16"]
 }
 
+resource "azurerm_subnet" "subnet" {
+  name                 = "website-factory-sn"
+  resource_group_name  = azurerm_resource_group.resource_group.name
+  virtual_network_name = azurerm_virtual_network.vn_network.name
+  address_prefixes     = ["10.0.2.0/24"]
+  service_endpoints    = ["Microsoft.Storage"]
+  delegation {
+    name = "fs"
+    service_delegation {
+      name = "Microsoft.DBforPostgreSQL/flexibleServers"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/join/action",
+      ]
+    }
+  }
+}
+resource "azurerm_private_dns_zone" "dns_zone" {
+  name                = "website-factory-1.postgres.database.azure.com" #change this to your DNS zone name
+  resource_group_name = azurerm_resource_group.resource_group.name
+}
+
 # Create App Service plan to define the capacity and resources to be shared among the app services that will be assigned to that plan
 resource "azurerm_app_service_plan" "app_service_plan" {
   name                = local.service_plan.name
@@ -77,6 +98,6 @@ resource "azurerm_app_service" "app_service" {
   connection_string {
     name  = "website-factory-db-connection"
     type  = "PostgreSQL"
-    value = "{your-postgres-server-name}.postgres.database.azure.com" # to do: get it from the DB server
+    value = "{your-postgres-server-name}.postgres.database.azure.com" # get it with data
   }
 }

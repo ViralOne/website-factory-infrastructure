@@ -13,9 +13,9 @@ locals {
     resource_name = "website-factory-db"
     sku           = "GP_Standard_D4s_v3"
 
-    admin_user              = "psqladmin"
-    admin_pass              = "H@Sh1CoR3!"
-    version                 = "12"
+    admin_user = "psqladmin"
+    admin_pass = "H@Sh1CoR3!"
+    version    = "12"
 
     storage_mb                   = 32768
     backup_retention_days        = 7
