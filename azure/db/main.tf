@@ -45,3 +45,17 @@ resource "azurerm_postgresql_database" "websitefactory_db" {
   charset             = "UTF8"
   collation           = "English_United States.1252"
 }
+
+# Give user access to storage
+resource "azurerm_user_assigned_identity" "user_assigned_identity" {
+  name                = "wf_user_identity"
+  location            = local.azure_configs.region
+  resource_group_name = "websitefactory_resources"
+}
+
+# and the role assignment to this identity
+resource "azurerm_role_assignment" "example" {
+  scope              = "/subscriptions/948d4068--xxxx-xxxx-xxxxx-xxxxx/resourceGroups/websitefactory_resources" #Change this
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id       = azurerm_user_assigned_identity.user_assigned_identity.principal_id
+}

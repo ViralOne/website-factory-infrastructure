@@ -98,6 +98,6 @@ resource "azurerm_app_service" "app_service" {
   connection_string {
     name  = "website-factory-db-connection"
     type  = "PostgreSQL"
-    value = "{your-postgres-server-name}.postgres.database.azure.com" # get it with data
+    value = "website-factory-1.postgres.database.azure.com" #Change this to your Postgres server name
   }
 }
