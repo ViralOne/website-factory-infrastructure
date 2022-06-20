@@ -11,17 +11,15 @@ locals {
     description   = "Service configuration"
     name          = "postgresql-server-1"
     resource_name = "website-factory-db"
-    sku           = "B_Gen5_1" # Smalles type
+    sku           = "GP_Standard_D4s_v3"
 
     admin_user              = "psqladmin"
     admin_pass              = "H@Sh1CoR3!"
-    version                 = "9.5"
-    ssl_enforcement_enabled = true
+    version                 = "12"
 
-    storage_mb                   = 5120
+    storage_mb                   = 32768
     backup_retention_days        = 7
     geo_redundant_backup_enabled = false
-    auto_grow_enabled            = true
-
+    zone                         = 1
   }
 }
