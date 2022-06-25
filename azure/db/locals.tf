@@ -22,8 +22,4 @@ locals {
     geo_redundant_backup_enabled = false
     zone                         = 1
   }
-
-  resource_group_data = {
-    id   = data.azurerm_resource_group.resource_group.id
-  }
 }
