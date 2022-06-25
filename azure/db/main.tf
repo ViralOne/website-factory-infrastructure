@@ -7,22 +7,10 @@ terraform {
   }
 }
 
-resource "azurerm_resource_group" "websitefactory_resources" {
-  name     = local.azure_configs.resource_name
-  location = local.azure_configs.region
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "vn_network_link" {
-  name                  = "exampleVnetZone.com" # change this
-  private_dns_zone_name = data.azurerm_private_dns_zone.dns_zone.name
-  virtual_network_id    = data.azurerm_virtual_network.vn_network.id
-  resource_group_name   = azurerm_resource_group.websitefactory_resources.name
-}
-
 resource "azurerm_postgresql_flexible_server" "websitefactory_db_server" {
   name                = local.db_config.name
-  location            = azurerm_resource_group.websitefactory_resources.location
-  resource_group_name = azurerm_resource_group.websitefactory_resources.name
+  location            = data.azurerm_resource_group.resource_group.location
+  resource_group_name = data.azurerm_resource_group.resource_group.name
 
   sku_name = local.db_config.sku
 
@@ -34,13 +22,11 @@ resource "azurerm_postgresql_flexible_server" "websitefactory_db_server" {
   administrator_password = local.db_config.admin_pass
   version                = local.db_config.version
   zone                   = local.db_config.zone
-
-  depends_on = [azurerm_private_dns_zone_virtual_network_link.vn_network_link]
 }
 
 resource "azurerm_postgresql_database" "websitefactory_db" {
   name                = local.db_config.name
-  resource_group_name = azurerm_resource_group.websitefactory_resources.name
+  resource_group_name = data.azurerm_resource_group.resource_group.name
   server_name         = azurerm_postgresql_flexible_server.websitefactory_db_server.name
   charset             = "UTF8"
   collation           = "English_United States.1252"
@@ -50,12 +36,18 @@ resource "azurerm_postgresql_database" "websitefactory_db" {
 resource "azurerm_user_assigned_identity" "user_assigned_identity" {
   name                = "wf_user_identity"
   location            = local.azure_configs.region
-  resource_group_name = "websitefactory_resources"
+  resource_group_name = "rs-website-factory"
 }
 
 # and the role assignment to this identity
-resource "azurerm_role_assignment" "example" {
-  scope              = "/subscriptions/948d4068--xxxx-xxxx-xxxxx-xxxxx/resourceGroups/websitefactory_resources" #Change this
+resource "azurerm_role_assignment" "user_role_assigment" {
+  scope              = local.resource_group_data.id
   role_definition_name = "Storage Blob Data Reader"
   principal_id       = azurerm_user_assigned_identity.user_assigned_identity.principal_id
+}
+
+# Create DNS name for postgress
+resource "azurerm_private_dns_zone" "dns_zone" {
+  name                = "website-factory-1.postgres.database.azure.com" #change this to your DNS zone name
+  resource_group_name = data.azurerm_resource_group.resource_group.name
 }

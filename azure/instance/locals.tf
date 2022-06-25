@@ -16,6 +16,12 @@ locals {
     reserved    = true
   }
 
+  storage_config = {
+    account_name     = "wfaccount"
+    tier             = "Standard" # Smalles type
+    replication_type = "LRS" #Locally Redundant Storage
+  }
+
   service_config = {
     description          = "Service configuration"
     name                 = "website-factory"

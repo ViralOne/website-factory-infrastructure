@@ -39,10 +39,6 @@ resource "azurerm_subnet" "subnet" {
     }
   }
 }
-resource "azurerm_private_dns_zone" "dns_zone" {
-  name                = "website-factory-1.postgres.database.azure.com" #change this to your DNS zone name
-  resource_group_name = azurerm_resource_group.resource_group.name
-}
 
 # Create App Service plan to define the capacity and resources to be shared among the app services that will be assigned to that plan
 resource "azurerm_app_service_plan" "app_service_plan" {
@@ -56,6 +52,14 @@ resource "azurerm_app_service_plan" "app_service_plan" {
     tier = local.service_plan.tier
     size = local.service_plan.size
   }
+}
+
+resource "azurerm_storage_account" "storage_account" {
+  name                     = local.storage_config.account_name
+  resource_group_name      = data.azurerm_resource_group.resource_group.name
+  location                 = data.azurerm_resource_group.resource_group.location
+  account_tier             = local.storage_config.tier
+  account_replication_type = "LRS"
 }
 
 resource "azurerm_app_service" "app_service" {
