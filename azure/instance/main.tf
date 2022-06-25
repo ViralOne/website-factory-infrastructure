@@ -56,8 +56,8 @@ resource "azurerm_app_service_plan" "app_service_plan" {
 
 resource "azurerm_storage_account" "storage_account" {
   name                     = local.storage_config.account_name
-  resource_group_name      = data.azurerm_resource_group.resource_group.name
-  location                 = data.azurerm_resource_group.resource_group.location
+  resource_group_name      = azurerm_resource_group.resource_group.name
+  location                 = azurerm_resource_group.resource_group.location
   account_tier             = local.storage_config.tier
   account_replication_type = "LRS"
 }
