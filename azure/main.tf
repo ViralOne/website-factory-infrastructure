@@ -22,17 +22,15 @@ resource "azurerm_linux_web_app" "app_service" {
   }
 
   app_settings = {
-    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
-    "DOCKER_REGISTRY_SERVER_URL"          = "https://index.docker.io"
     "APP_ENV"                             = "production"
     "APP_KEY"                             = "some-key"
     "WEBSITE_FACTORY_EDITION"             = "edge"
     "DB_CONNECTION"                       = "pgsql"
-    "DB_HOST"                             = "website-factory-1.postgres.database.azure.com"
+    "DB_HOST"                             = "${azurerm_private_dns_zone.dns_zone.name}"
     "DB_PORT"                             = "5432"
-    "DB_DATABASE"                         = "db_name"
-    "DB_USERNAME"                         = "db_user"
-    "DB_PASSWOR"                          = "db_pass"
+    "DB_DATABASE"                         = "postgres"
+    "DB_USERNAME"                         = "${local.db_config.admin_user}"
+    "DB_PASSWORD"                         = "${local.db_config.admin_pass}"
     "REDIS_HOST"                          = "host"
     "REDIS_PASSWORD"                      = "null"
     "REDIS_PORT"                          = "6379"
@@ -50,7 +48,7 @@ resource "azurerm_linux_web_app" "app_service" {
   connection_string {
     name  = "website-factory-db-connection"
     type  = "PostgreSQL"
-    value = "website-factory-1.postgres.database.azure.com" #Change this to your Postgres server name
+    value = azurerm_private_dns_zone.dns_zone.name
   }
 }
 
