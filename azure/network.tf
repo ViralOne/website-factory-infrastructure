@@ -28,3 +28,10 @@ resource "azurerm_private_dns_zone" "dns_zone" {
   name                = format("%s.%s", local.db_config.name, "postgres.database.azure.com")
   resource_group_name = azurerm_resource_group.resource_group.name
 }
+
+resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_zone_vnet_link" {
+  name                  = "${local.tags.org_name}-link"
+  private_dns_zone_name = azurerm_private_dns_zone.dns_zone.name
+  virtual_network_id    = azurerm_virtual_network.vn_network.id
+  resource_group_name   = azurerm_resource_group.resource_group.name
+}
