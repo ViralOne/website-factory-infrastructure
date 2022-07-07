@@ -23,3 +23,26 @@ resource "azurerm_postgresql_flexible_server_database" "server_database" {
   collation = "en_US.utf8"
   charset   = "utf8"
 }
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "public_network_access" {
+  name                = "PublicNetworkAccess"
+  server_id           = azurerm_postgresql_flexible_server.websitefactory_db_server.id
+  start_ip_address    = "0.0.0.0"
+  end_ip_address      = "0.0.0.0"
+}
+
+# To avoid replacement, you need to import the resource:
+# terraform import random_password.pwd securepassword
+resource "random_password" "pwd" {
+  length           = 16
+  special          = true
+  override_special = "_%@"
+
+  lifecycle {
+    ignore_changes = [
+      length,
+      special,
+      override_special
+    ]
+  }
+}

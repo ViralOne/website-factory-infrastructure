@@ -50,6 +50,7 @@ locals {
 
     admin_user = "psqladmin"
     admin_pass = "H@Sh1CoR3!"
+    #admin_pass = random_password.pwd.result
     version    = "13"
 
     storage_mb                    = 32768
