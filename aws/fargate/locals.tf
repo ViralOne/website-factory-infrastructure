@@ -19,33 +19,26 @@ locals {
     default     = "1"
   }
 
-  app_image = {
-    description = "Docker image to run in the ECS cluster"
-    default     = "code4romania/website-factory:edge"
+  app = {
+    image = "code42/website-factory:edge"
+    port  = 80
+    count = 1
+    health_check = "/"
   }
 
-  app_port = {
-    description = "Port exposed by the docker image to redirect traffic to"
-    default     = 80
+  fargate = {
+    cpu    = "256"
+    memory = "512"
   }
 
-  app_count = {
-    description = "Number of docker containers to run"
-    default     = 1
-  }
-
-  health_check_path = {
-    default = "/"
-  }
-
-  fargate_cpu = {
-    description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-    default     = "256"
-  }
-
-  fargate_memory = {
-    description = "Fargate instance memory to provision (in MiB)"
-    default     = "512"
+  redis = {
+    cluster_id = "redis-cluster"
+    engine = "redis"
+    node_type = "cache.t3.micro"
+    num_cache_nodes = 1
+    parameter_group_name = "default.redis3.2"
+    engine_version = "3.2.10"
+    port = 6379
   }
 
   iam_profile = {

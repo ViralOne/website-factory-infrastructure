@@ -1,10 +1,12 @@
-resource "aws_alb" "main" {
+resource "aws_lb" "main" {
   name            = "cb-load-balancer"
+  internal           = false
+  load_balancer_type = "application"
   subnets         = aws_subnet.public.*.id
-  security_groups = [aws_security_group.lb.id]
+  security_groups = [for subnet in aws_subnet.public : subnet.id]
 }
 
-resource "aws_alb_target_group" "app" {
+resource "aws_lb_target_group" "app" {
   name        = "cb-target-group"
   port        = 80
   protocol    = "HTTP"
@@ -17,19 +19,19 @@ resource "aws_alb_target_group" "app" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
-    path                = local.health_check_path.default
+    path                = local.app.health_check
     unhealthy_threshold = "2"
   }
 }
 
-# Redirect all traffic from the ALB to the target group
-resource "aws_alb_listener" "front_end" {
-  load_balancer_arn = aws_alb.main.id
-  port              = local.app_port.default
+# Redirect all traffic from the LB to the target group
+resource "aws_lb_listener" "front_end" {
+  load_balancer_arn = aws_lb.main.id
+  port              = local.app.port
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.app.id
+    target_group_arn = aws_lb_target_group.app.id
     type             = "forward"
   }
 }
