@@ -1,29 +1,20 @@
 locals {
-  aws_region = {
-    description = "Default AWS region"
-    default     = "eu-central-1"
+  tags = {
+    env      = "dev"
+    org_name = "websitefactory"
   }
 
-  key_name = {
-    description = " SSH keys to connect to EC2 instance"
-    default     = "wf-key-1"
-  }
-
-  ecs_task_execution_role_name = {
-    description = "ECS task execution role name"
-    default = "website-factory-ecs-role"
-  }
-
-  az_count = {
-    description = "Number of AZs to cover in a given region"
-    default     = "1"
+  configs = {
+    region   = "eu-central-1"
+    az_count = 1
   }
 
   app = {
-    image = "code42/website-factory:edge"
-    port  = 80
-    count = 1
+    image        = "code42/website-factory:edge"
+    port         = 80
+    count        = 1
     health_check = "/"
+    launch_type  = "FARGATE"
   }
 
   fargate = {
@@ -32,18 +23,18 @@ locals {
   }
 
   redis = {
-    cluster_id = "redis-cluster"
-    engine = "redis"
-    node_type = "cache.t3.micro"
-    num_cache_nodes = 1
-    parameter_group_name = "default.redis3.2"
-    engine_version = "3.2.10"
-    port = 6379
+    cluster_id           = "redis-cluster"
+    engine               = "redis"
+    node_type            = "cache.t2.micro"
+    num_cache_nodes      = 1
+    parameter_group_name = "default.redis6.x"
+    engine_version       = "6.2"
+    port                 = 6379
   }
 
-  iam_profile = {
-    description = "IAM instance profile"
-    default     = "website-factory-profile"
+  network = {
+    public_subnets  = ["10.0.16.0/20", "10.0.48.0/20", "10.0.80.0/20"]
+    private_subnets = ["10.0.0.0/20", "10.0.32.0/20", "10.0.64.0/20"]
   }
 
   ses = {
