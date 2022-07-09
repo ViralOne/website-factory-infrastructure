@@ -1,6 +1,6 @@
 # ALB Security Group: Edit to restrict access to the application
 resource "aws_security_group" "alb" {
-  name        = "cb-load-balancer-security-group"
+  name        = "load-balancer-${local.tags.org_name}-sg"
   description = "Controls access to the ALB"
   vpc_id      = aws_vpc.main.id
 
@@ -16,6 +16,14 @@ resource "aws_security_group" "alb" {
     protocol         = "tcp"
     from_port        = 443
     to_port          = 443
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  ingress {
+    protocol         = "tcp"
+    from_port        = 6379
+    to_port          = 6379
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
