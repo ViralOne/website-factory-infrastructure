@@ -16,9 +16,8 @@ $ terraform apply
 
 You have to execute in a specific order:
 
-1. Main-Components folder - to create Route53 Hosted zone, email service, EC2 instance, IAM Roles + Policies and the S3 bucket 
-2. RDS - to create the Postgres DB
-3. Set DNS nameservers to AWS Route 53.
+1. Change the details in local.tf for each ONG
+2. Plan & Apply changes
 
 ---
 
