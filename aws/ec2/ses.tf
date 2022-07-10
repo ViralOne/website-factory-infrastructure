@@ -1,8 +1,8 @@
 ## Create Route 53 zone
 
 resource "aws_route53_zone" "zone" {
-  name     = local.ses.domain
-  tags     = {}
+  name = local.ec2.ses.domain
+  tags = {}
 }
 
 ## Create SES record
@@ -34,10 +34,10 @@ resource "aws_route53_record" "email" {
 }
 
 ## Create a DNS record for the domain
- 
+
 resource "aws_route53_record" "www" {
   zone_id = aws_route53_zone.zone.zone_id
-  name    = local.domain.record_A
+  name    = local.ec2.ses.domain
   type    = "A"
   ttl     = "300"
   records = [module.ec2_instance.public_ip]
@@ -45,7 +45,7 @@ resource "aws_route53_record" "www" {
 
 resource "aws_route53_record" "www_v6" {
   zone_id = aws_route53_zone.zone.zone_id
-  name    = local.domain.record_A
+  name    = local.ec2.ses.domain
   type    = "AAAA"
   ttl     = "300"
   records = [module.ec2_instance.public_ip]
