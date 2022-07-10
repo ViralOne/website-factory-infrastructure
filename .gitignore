@@ -2,3 +2,4 @@
 .terraform.lock.hcl
 *.tfstate
 *.backup
+azure/db/.terraform.tfstate.lock.info
