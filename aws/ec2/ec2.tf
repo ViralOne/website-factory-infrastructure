@@ -2,19 +2,16 @@ module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 3.0"
 
-  name = "website-factory"
+  name = format("%s-%s", local.tags.env, local.tags.org_name)
 
-  ami                  = local.ami.default
-  instance_type        = local.instance_type.default
-  key_name             = local.key_name.default
-  iam_instance_profile = local.iam_profile.default
+  ami                    = local.ec2.ami
+  instance_type          = local.ec2.instance_type
+  key_name               = local.ec2.key_name
+  iam_instance_profile   = local.ec2.iam_profile
   vpc_security_group_ids = ["${aws_security_group.expose_web.id}"]
-  monitoring           = true
+  monitoring             = true
 
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-  }
+  tags = local.tags
 }
 
 resource "aws_default_vpc" "default" {
@@ -50,9 +47,9 @@ resource "aws_security_group" "expose_web" {
   }
 
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }

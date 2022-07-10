@@ -1,7 +1,6 @@
-resource "aws_s3_bucket" "website-factory" {
+resource "aws_s3_bucket" "data_s3" {
   bucket        = local.bucket.name
   force_destroy = local.bucket.force_destroy
-  acl           = local.bucket.acl
 
   tags = {
     Name           = local.bucket.name
@@ -9,16 +8,21 @@ resource "aws_s3_bucket" "website-factory" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "website-factory" {
-  bucket = aws_s3_bucket.website-factory.id
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  bucket = aws_s3_bucket.data_s3.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "data_s3_policy" {
+  bucket = aws_s3_bucket.data_s3.id
 
   versioning_configuration {
     status = local.bucket.versioning
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "website-factory" {
-  bucket = aws_s3_bucket.website-factory.id
+resource "aws_s3_bucket_server_side_encryption_configuration" "data_s3_encryption" {
+  bucket = aws_s3_bucket.data_s3.id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -27,8 +31,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "website-factory" 
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "website-factory" {
-  bucket = aws_s3_bucket.website-factory.id
+resource "aws_s3_bucket_lifecycle_configuration" "data_s3_lifecycle" {
+  bucket = aws_s3_bucket.data_s3.id
 
   rule {
     status = "Enabled"

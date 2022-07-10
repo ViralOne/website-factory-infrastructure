@@ -1,5 +1,22 @@
+resource "aws_iam_role" "s3_access" {
+  name = format("%s-%s", "s3", local.tags.org_name)
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
 resource "aws_iam_policy" "bucket_policy" {
-  name        = "s3-wf-access"
+  name        = format("%s-%s", "s3", local.tags.org_name)
   path        = "/"
   description = "Allow access to S3 for Workflow"
 
@@ -26,30 +43,12 @@ resource "aws_iam_policy" "bucket_policy" {
   })
 }
 
-resource "aws_iam_role" "s3_access" {
-  name = "website-factory_s3_role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "wf_bucket_policy" {
+resource "aws_iam_role_policy_attachment" "bucket_policy" {
   role       = aws_iam_role.s3_access.name
   policy_arn = aws_iam_policy.bucket_policy.arn
 }
 
-resource "aws_iam_instance_profile" "wf_profile" {
-  name = "website-factory-profile"
+resource "aws_iam_instance_profile" "profile" {
+  name = format("%s-%s", "profile", local.tags.org_name)
   role = aws_iam_role.s3_access.name
 }
