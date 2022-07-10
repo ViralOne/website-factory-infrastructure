@@ -54,4 +54,14 @@ locals {
     version_transition_days = 7
     version_expiration_days = 30
   }
+
+  redis = {
+    cluster_id           = "redis-cluster"
+    engine               = "redis"
+    node_type            = "cache.t2.micro"
+    num_cache_nodes      = 1
+    parameter_group_name = "default.redis6.x"
+    engine_version       = "6.2"
+    port                 = 6379
+  }
 }
