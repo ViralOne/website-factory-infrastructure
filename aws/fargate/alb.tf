@@ -1,9 +1,10 @@
 resource "aws_lb" "main" {
-  name               = "cb-load-balancer"
-  internal           = false
-  load_balancer_type = "application"
-  subnets            = aws_subnet.public.*.id
-  security_groups    = [for subnet in aws_subnet.public : subnet.id]
+  name                       = "cb-load-balancer"
+  internal                   = false
+  load_balancer_type         = "application"
+  drop_invalid_header_fields = true
+  subnets                    = aws_subnet.public.*.id
+  security_groups            = [for subnet in aws_subnet.public : subnet.id]
 }
 
 resource "aws_lb_target_group" "app" {
@@ -28,7 +29,7 @@ resource "aws_lb_target_group" "app" {
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.main.id
   port              = local.app.port
-  protocol          = "HTTP"
+  protocol          = "HTTPS"
 
   default_action {
     target_group_arn = aws_lb_target_group.app.id
@@ -39,7 +40,7 @@ resource "aws_lb_listener" "front_end" {
 resource "aws_lb_listener" "secure" {
   load_balancer_arn = aws_lb.main.id
   port              = 443
-  protocol          = "HTTP"
+  protocol          = "HTTPS"
 
   default_action {
     target_group_arn = aws_lb_target_group.app.id

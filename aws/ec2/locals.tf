@@ -31,7 +31,8 @@ locals {
     name                = format("%s%s", "db", local.tags.org_name)
     username            = "ufadmin"
     skip_final_snapshot = true
-    publicly_accessible = true
+    publicly_accessible = false
+    monitoring          = true
     random = {
       length           = "20" # password length
       special          = false

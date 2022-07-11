@@ -1,5 +1,10 @@
 resource "aws_ecs_cluster" "main" {
   name = format("%s-%s", "cluster", local.tags.org_name)
+
+  setting {
+    name  = local.setting.name
+    value = local.setting.value
+  }
 }
 
 data "template_file" "cb_app" {

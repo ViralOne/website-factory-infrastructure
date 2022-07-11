@@ -17,19 +17,25 @@ locals {
     launch_type  = "FARGATE"
   }
 
+  setting = {
+    name  = "containerInsights"
+    value = "enabled"
+  }
+
   fargate = {
     cpu    = "256"
     memory = "512"
   }
 
   redis = {
-    cluster_id           = "redis-cluster"
-    engine               = "redis"
-    node_type            = "cache.t2.micro"
-    num_cache_nodes      = 1
-    parameter_group_name = "default.redis6.x"
-    engine_version       = "6.2"
-    port                 = 6379
+    cluster_id               = "redis-cluster"
+    engine                   = "redis"
+    node_type                = "cache.t2.micro"
+    num_cache_nodes          = 1
+    parameter_group_name     = "default.redis6.x"
+    engine_version           = "6.2"
+    port                     = 6379
+    snapshot_retention_limit = 5
   }
 
   network = {

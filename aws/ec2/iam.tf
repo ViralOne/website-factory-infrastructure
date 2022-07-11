@@ -7,7 +7,6 @@ resource "aws_iam_role" "s3_access" {
       {
         Action = "sts:AssumeRole"
         Effect = "Allow"
-        Sid    = ""
         Principal = {
           Service = "ec2.amazonaws.com"
         }
@@ -24,7 +23,7 @@ resource "aws_iam_policy" "bucket_policy" {
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Sid" : "VisualEditor0",
+        "Sid" : "",
         "Effect" : "Allow",
         "Action" : [
           "s3:PutObject",

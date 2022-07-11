@@ -3,3 +3,4 @@
 *.tfstate
 *.backup
 azure/db/.terraform.tfstate.lock.info
+aws/fargate/tfplan.binary

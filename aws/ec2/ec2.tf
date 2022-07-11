@@ -9,7 +9,11 @@ module "ec2_instance" {
   key_name               = local.ec2.key_name
   iam_instance_profile   = local.ec2.iam_profile
   vpc_security_group_ids = ["${aws_security_group.expose_web.id}"]
-  monitoring             = true
+  monitoring             = local.ec2.monitoring
+
+  root_block_device {
+    encrypted = true
+  }
 
   tags = local.tags
 }
