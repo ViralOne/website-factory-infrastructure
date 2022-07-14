@@ -45,7 +45,7 @@ resource "azurerm_linux_web_app" "app_service" {
     "FILESYSTEM_DRIVER"       = "azure"
     "FILESYSTEM_CLOUD"        = "azure"
     "AZURE_STORAGE_NAME"      = azurerm_storage_account.storage_account.name
-    "AZURE_STORAGE_KEY"       = azurerm_storage_account_customer_managed_key.costumer_key.id
+    "AZURE_STORAGE_KEY"       = azurerm_storage_account.storage_account.primary_access_key
     "AZURE_STORAGE_CONTAINER" = "data"
   }
 

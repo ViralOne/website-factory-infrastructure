@@ -7,9 +7,9 @@ output "db_user" {
   sensitive = true
 }
 
-output "db_password" {
-  value = local.db_config.admin_pass
-  sensitive = true
+resource "local_file" "db_pwd" {
+  content  = local.db_config.admin_pass
+  filename = "${format("%s-%s", "pwd", local.tags.org_name)}.yaml"
 }
 
 output "lb_ip" {
@@ -28,11 +28,7 @@ output "redis_host" {
   value = azurerm_redis_cache.redis_instance.hostname
 }
 
-output "redis_primary_connection_string" {
-  value = azurerm_redis_cache.redis_instance.primary_connection_string
-  sensitive = true
+resource "local_file" "storage_key" {
+  content  = azurerm_storage_account.storage_account.primary_access_key
+  filename = "${format("%s-%s", "storage_key", local.tags.org_name)}.yaml"
 }
-
-# output "storage_id" {
-#   value = azurerm_storage_account_customer_managed_key.costumer_key.id
-# }
