@@ -23,3 +23,20 @@ output "web_app_hostname" {
 output "db_public_accesible" {
   value = azurerm_postgresql_flexible_server.websitefactory_db_server.public_network_access_enabled
 }
+
+output "redis_host" {
+  value = azurerm_redis_cache.redis_instance.hostname
+}
+
+output "redis_primary_connection_string" {
+  value = azurerm_redis_cache.redis_instance.primary_connection_string
+  sensitive = true
+}
+
+output "account_id" {
+  value = data.azurerm_client_config.current.client_id
+}
+
+output "costumer_key" {
+  value = azurerm_storage_account_customer_managed_key.costumer_key.id
+}

@@ -22,33 +22,41 @@ resource "azurerm_linux_web_app" "app_service" {
   }
 
   app_settings = {
-    "APP_ENV"                             = "production"
-    "APP_KEY"                             = "some-key"
-    "WEBSITE_FACTORY_EDITION"             = "edge"
-    "DB_CONNECTION"                       = "pgsql"
-    "DB_HOST"                             = "${azurerm_private_dns_zone.dns_zone.name}"
-    "DB_PORT"                             = "5432"
-    "DB_DATABASE"                         = "postgres"
-    "DB_USERNAME"                         = "${local.db_config.admin_user}"
-    "DB_PASSWORD"                         = "${local.db_config.admin_pass}"
-    "REDIS_HOST"                          = "host"
-    "REDIS_PASSWORD"                      = "null"
-    "REDIS_PORT"                          = "6379"
-    "MAIL_MAILER"                         = "smtp"
-    "MAIL_HOST"                           = "host"
-    "MAIL_PORT"                           = "1234"
-    "MAIL_USERNAM"                        = "username"
-    "MAIL_PASSWORD"                       = "password"
-    "MAIL_ENCRYPTION"                     = "tls"
-    "MAIL_FROM_ADDRESS"                   = "email@service.com"
-    "FILESYSTEM_DRIVER"                   = "storage_account"
-    "FILESYSTEM_CLOUD"                    = "storage_account"
+    "APP_DEBUG"               = true
+    "APP_ENV"                 = "production"
+    "APP_KEY"                 = "key"
+    "WEBSITE_FACTORY_EDITION" = "ong"
+    "DB_CONNECTION"           = "pgsql"
+    "DB_HOST"                 = "${azurerm_private_dns_zone.dns_zone.name}"
+    "DB_PORT"                 = "5432"
+    "DB_DATABASE"             = "postgres"
+    "DB_USERNAME"             = "${local.db_config.admin_user}"
+    "DB_PASSWORD"             = "${local.db_config.admin_pass}"
+    "REDIS_HOST"              = "${azurerm_redis_cache.redis_instance.hostname}"
+    "REDIS_PASSWORD"          = "null"
+    "REDIS_PORT"              = "${azurerm_redis_cache.redis_instance.port}"
+    "MAIL_MAILER"             = "smtp"
+    "MAIL_HOST"               = "host"
+    "MAIL_PORT"               = "1234"
+    "MAIL_USERNAM"            = "username"
+    "MAIL_PASSWORD"           = "password"
+    "MAIL_ENCRYPTION"         = "tls"
+    "MAIL_FROM_ADDRESS"       = "email@service.com"
+    "FILESYSTEM_DRIVER"       = "azure"
+    "FILESYSTEM_CLOUD"        = "azure"
+    "AZURE_STORAGE_NAME"      = azurerm_storage_account.storage_account.name
+    "AZURE_STORAGE_KEY"       = azurerm_storage_account_customer_managed_key.costumer_key.id
+    "AZURE_STORAGE_CONTAINER" = "data"
   }
 
   connection_string {
     name  = "website-factory-db-connection"
     type  = "PostgreSQL"
     value = azurerm_private_dns_zone.dns_zone.name
+  }
+
+  identity {
+    type = "SystemAssigned"
   }
 }
 
