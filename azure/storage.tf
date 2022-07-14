@@ -18,7 +18,12 @@ resource "azurerm_storage_account" "storage_account" {
   location                 = azurerm_resource_group.resource_group.location
   account_tier             = local.storage_config.tier
   account_replication_type = "LRS"
+  account_kind             = "BlobStorage"
   min_tls_version          = "TLS1_2"
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 # Get costumer managed key
@@ -29,13 +34,15 @@ resource "azurerm_key_vault" "vault_key" {
   tenant_id           = data.azurerm_client_config.current.tenant_id
   sku_name            = "standard"
 
-  purge_protection_enabled = false
+  soft_delete_retention_days = 7
+  purge_protection_enabled   = true
 }
 
 resource "azurerm_key_vault_access_policy" "storage" {
   key_vault_id = azurerm_key_vault.vault_key.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = azurerm_storage_account.storage_account.identity.0.principal_id
+
   key_permissions    = ["Get", "Create", "List", "Restore", "Recover", "UnwrapKey", "WrapKey", "Purge", "Encrypt", "Decrypt", "Sign", "Verify"]
   secret_permissions = ["Get"]
 }
@@ -49,14 +56,12 @@ resource "azurerm_key_vault_access_policy" "client" {
   secret_permissions = ["Get"]
 }
 
-
 resource "azurerm_key_vault_key" "key_vault_key" {
   name         = "tfex-key"
   key_vault_id = azurerm_key_vault.vault_key.id
   key_type     = "RSA"
   key_size     = 2048
   key_opts     = ["decrypt", "encrypt", "sign", "unwrapKey", "verify", "wrapKey"]
-
   depends_on = [
     azurerm_key_vault_access_policy.client,
     azurerm_key_vault_access_policy.storage,

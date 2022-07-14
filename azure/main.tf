@@ -54,10 +54,6 @@ resource "azurerm_linux_web_app" "app_service" {
     type  = "PostgreSQL"
     value = azurerm_private_dns_zone.dns_zone.name
   }
-
-  identity {
-    type = "SystemAssigned"
-  }
 }
 
 # Create a resource group

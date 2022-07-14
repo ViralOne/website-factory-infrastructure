@@ -33,10 +33,6 @@ output "redis_primary_connection_string" {
   sensitive = true
 }
 
-output "account_id" {
-  value = data.azurerm_client_config.current.client_id
-}
-
-output "costumer_key" {
-  value = azurerm_storage_account_customer_managed_key.costumer_key.id
-}
+# output "storage_id" {
+#   value = azurerm_storage_account_customer_managed_key.costumer_key.id
+# }
