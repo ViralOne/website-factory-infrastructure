@@ -18,5 +18,10 @@ resource "azurerm_storage_account" "storage_account" {
   location                 = azurerm_resource_group.resource_group.location
   account_tier             = local.storage_config.tier
   account_replication_type = "LRS"
+  account_kind             = "BlobStorage"
   min_tls_version          = "TLS1_2"
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
