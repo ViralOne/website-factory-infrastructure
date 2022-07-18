@@ -3,7 +3,7 @@ output "db_url" {
 }
 
 output "db_user" {
-  value = local.db_config.admin_user
+  value     = local.db_config.admin_user
   sensitive = true
 }
 

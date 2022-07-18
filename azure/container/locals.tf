@@ -38,9 +38,13 @@ locals {
     name        = local.tags.org_name
   }
 
-  docker = {
-    image = "code4romania/website-factory"
-    tag   = "edge"
+  container = {
+    os              = "Linux"
+    ip_address_type = "Public"
+    cpu             = "0.5"
+    memory          = "1"
+    image           = "code4romania/website-factory"
+    tag             = "edge"
   }
 
   db_config = {
@@ -49,13 +53,13 @@ locals {
     sku         = "B_Standard_B1ms"
 
     admin_user = "psqladmin"
-    admin_pass = random_password.pwd.result
+    admin_pass = "123123"
     version    = "13"
 
     storage_mb                    = 32768
     backup_retention_days         = 7
     geo_redundant_backup_enabled  = false
     public_network_access_enabled = true
-    zone                          = "2" 
+    zone                          = "2"
   }
 }
