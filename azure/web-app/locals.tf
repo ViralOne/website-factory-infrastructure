@@ -1,13 +1,14 @@
 locals {
   tags = {
     env      = "dev"
-    org_name = "websitefactory"
+    org_name = "wfdeployappservice"
   }
 
   azure_configs = {
     description   = "Azure necessary configurations"
     resource_name = format("%s-%s", "rs", local.tags.org_name)
-    region        = "France Central"
+    region        = "East US"
+    hostname      = "app-service-test.heroesof.tech"
   }
 
   network = {
@@ -23,7 +24,7 @@ locals {
     description = "Service plan details"
     name        = format("%s-%s", "svc-plan", local.tags.org_name)
     tier        = "Standard"
-    size        = "B1" # Smallest tier but not free, F1 tier didn't allow to apply  
+    size        = "B1" # Smallest tier but not free, F1 tier didn't allow to apply
     kind        = "Linux"
   }
 
